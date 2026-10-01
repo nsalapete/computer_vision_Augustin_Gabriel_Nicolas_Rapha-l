@@ -1,0 +1,5 @@
+variant,val_acc,val_macro_f1
+final recipe,0.9787,0.9799
++ geometric augmentation,0.9514,0.9537
++ horizontal flip (train + TTA),0.9747,0.9754
+naive RGB conversion,0.9782,0.9776
