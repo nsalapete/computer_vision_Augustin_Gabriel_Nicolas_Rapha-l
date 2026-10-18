@@ -8,3 +8,25 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Caches (e.g. HF_HOME / TORCH_HOME pointed inside the project, Colab, linters)
+.cache/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Model checkpoints, if saved locally (outputs/ itself is tracked: it holds the reported results)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
