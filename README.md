@@ -46,6 +46,7 @@ train_labels.csv         Id,Label for the training images
 test/                    9,879 test PNGs (10001.png ... 19879.png)
 submission.csv           test predictions, Id,Label
 outputs/                 training history, ablation scores, OOF and test probabilities
+AI_USAGE.md              declaration of AI assistance
 ```
 
 ## Setup
