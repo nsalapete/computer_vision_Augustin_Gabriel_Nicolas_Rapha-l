@@ -1,16 +1,24 @@
-# Versions used to produce emoji_classifier.ipynb (Python 3.12, NVIDIA RTX 4070 Laptop GPU).
-# PyTorch with CUDA 12.8:
+# Exact versions of the environment that produced emoji_classifier.ipynb:
+# Python 3.12.10, NVIDIA RTX 4070 Laptop GPU, CUDA 12.8.
+#
+# Install PyTorch first, from the CUDA 12.8 index (for a CPU-only machine use .../whl/cpu instead):
 #   pip install torch==2.11.0 torchvision==0.26.0 --index-url https://download.pytorch.org/whl/cu128
 #   pip install -r requirements.txt
+
+# deep learning
 torch==2.11.0
-torchvision==0.26.0
+torchvision==0.26.0          # required by timm
 timm==1.0.30
-huggingface_hub==2.0.0
-safetensors==0.8.0
+huggingface_hub==2.0.0       # downloads the pretrained weights
+safetensors==0.8.0           # reads the pretrained weights
+
+# data, metrics, plots
 numpy==2.4.2
 pandas==3.0.1
 pillow==12.1.1
 scikit-learn==1.9.1
 matplotlib==3.10.8
+
+# running the notebook
 jupyter==1.1.1
 ipykernel==7.4.0
