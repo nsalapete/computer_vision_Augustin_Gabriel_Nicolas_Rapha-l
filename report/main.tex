@@ -68,11 +68,8 @@
 \newcommand{\up}[1]{\textcolor{good}{#1}}
 \newcommand{\down}[1]{\textcolor{bad}{#1}}
 
-% ---------- values to fill in by the team ----------
-% Public / private leaderboard scores are not stored in the repository:
-% replace the two placeholders below once they are known.
-\newcommand{\kagglepublic}{\textcolor{bad}{[to fill]}}
-\newcommand{\kaggleprivate}{\textcolor{bad}{[to fill]}}
+% ---------- Kaggle leaderboard (not stored in the repository) ----------
+\newcommand{\kagglepublic}{0.98238}
 
 % =====================================================================
 \begin{document}
@@ -109,6 +106,7 @@
   \textbf{Task}          & 7-class image classification (emoji vendor) \\
   \textbf{Model}         & ConvNeXt-Tiny (CNN), ImageNet-22k pretrained, 5-fold ensemble \\
   \textbf{Validation}    & Out-of-fold accuracy \textbf{97.56\,\%}, macro-F1 \textbf{0.976} \\
+  \textbf{Leaderboard}   & Kaggle public score \textbf{\kagglepublic} \\
   \textbf{Deliverables}  & \code{emoji\_classifier.ipynb}, \code{submission.csv}, this report \\
 \end{tabularx}
 \end{tcolorbox}
@@ -145,7 +143,8 @@ score is not inflated. An ablation study showed that the usual geometric data au
 \emph{lowers} accuracy by 2.7 points, so the final model is trained without augmentation.
 
 The 5-fold ensemble reaches an out-of-fold accuracy of \textbf{97.56\,\%} and a macro-F1 of
-\textbf{0.976}, against 66.7\,\% for a baseline that only reads file metadata. The remaining errors
+\textbf{0.976}, against 66.7\,\% for a baseline that only reads file metadata, and its submission scores
+\textbf{\kagglepublic} on the Kaggle public leaderboard. The remaining errors
 are concentrated on the 4.5\,\% of images delivered at an unusual (small) resolution: they account for
 45\,\% of the mistakes.
 
@@ -581,8 +580,7 @@ rule at distance zero. It is safe because identical training images never carry 
 \label{sec:metrics}
 
 \begin{itemize}
-  \item \textbf{Accuracy}, the share of correctly classified images, is the natural headline metric
-  and the one used to rank the submissions.
+  \item \textbf{Accuracy}, the share of correctly classified images, is the natural headline metric.
   \item \textbf{Macro-F1} gives every vendor the same weight, whatever its size:
   \begin{equation}
     \text{F1}_k = \frac{2\,P_k R_k}{P_k + R_k},\qquad
@@ -610,7 +608,7 @@ than on a single 20\,\% hold-out.
 
 \begin{table}[H]
 \centering\small
-\caption{Headline results (out-of-fold on the \num{9879} training images).}
+\caption{Headline results: out-of-fold on the \num{9879} training images, and Kaggle public leaderboard.}
 \label{tab:main}
 \begin{tabular}{l S[table-format=2.2] S[table-format=1.3]}
 \toprule
@@ -619,8 +617,7 @@ than on a single 20\,\% hold-out.
 Metadata only (decision tree on native size + PNG mode) & 66.70 & 0.486 \\
 \textbf{ConvNeXt-Tiny, 5-fold ensemble (final)}          & \bfseries 97.56 & \bfseries 0.976 \\
 \midrule
-Kaggle public leaderboard (test set)  & \multicolumn{2}{c}{\kagglepublic} \\
-Kaggle private leaderboard (test set) & \multicolumn{2}{c}{\kaggleprivate} \\
+\textbf{Kaggle public leaderboard score} (part of the test set) & \multicolumn{2}{c}{\textbf{\kagglepublic}} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -643,6 +640,14 @@ Across the full OOF predictions, the model reaches \textbf{97.56\,\%} accuracy, 
 \textbf{0.9762} and a weighted F1 of 0.9757 (Table~\ref{tab:main}). Only \textbf{241} of the \num{9879}
 images are misclassified. The fold scores are stable (96.6\,\% to 98.0\,\%, standard deviation 0.6 point).
 The correct vendor is among the two most probable ones for 98.98\,\% of the images (top-2 accuracy).
+
+\paragraph{Kaggle leaderboard.} The submitted predictions of the 5-fold ensemble score
+\textbf{\kagglepublic} on the public leaderboard. Kaggle computes this score on part of the test set,
+with the metric defined on the competition's Evaluation tab; the private leaderboard, computed on the
+rest of the test set, is not available yet. The public score is in line with the cross-validation
+estimate, and slightly above it. This is expected: each out-of-fold prediction comes from a single fold
+model, while each test prediction averages five of them. Moreover, the public part of the test set is
+only a sample, so its score carries a sampling uncertainty of a few tenths of a point.
 
 \subsection{Learning curves}
 
@@ -867,21 +872,23 @@ bottom and writes every result to disk. Table~\ref{tab:code} maps its sections t
 \midrule
 0. Setup        & package versions, \code{CFG} dictionary, \code{seed\_everything} & \S\ref{sec:archi} \\
 1. The data     & class balance, native sizes and PNG modes, sample grid & \S\ref{sec:prepro} \\
-2. Preprocessing & \code{load\_premultiplied}, \code{load\_folder}, \code{composite\_on\_white}; fingerprints, duplicates, \code{StratifiedGroupKFold} folds & \S\ref{sec:prepro} \\
+2. Preprocessing & \code{load\_premultiplied}, \code{load\_folder}, \code{composite\_on\_white}; fingerprints, duplicates, \code{StratifiedGroupKFold} folds; near-duplicate check with perceptual hashes (added later, not executed yet) & \S\ref{sec:prepro} \\
 3. Baseline     & metadata-only decision tree & \S\ref{sec:prepro} \\
 4. Model and training & \code{normalize}, \code{augment}, \code{predict\_proba}, \code{train\_one\_fold}; 5-fold loop & \S\ref{sec:archi} \\
 5. Evaluation   & OOF metrics, learning curves, confusion matrix, error analysis & \S\ref{sec:perf} \\
 6. Submission   & fold averaging, duplicate lookup, format checks, \code{submission.csv} & \S\ref{sec:perf} \\
 7. Ablation     & one-change-at-a-time variants on fold 0 & \S\ref{sec:ablation} \\
-8. Summary      & results and lessons & \S\ref{sec:conclusion} \\
+8. Experiments  & oversampling of the off-size images, nearest-neighbour upscaling, 8 epochs, final model retrained on 100\,\% of the data with 3 seeds (added later, not executed yet) & \S\ref{sec:conclusion} \\[2pt]
+9. Summary      & results and lessons & \S\ref{sec:conclusion} \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 \noindent Besides the notebook, the repository contains \code{requirements.txt} (pinned package versions),
 the training history and ablation results (\code{outputs/history.csv}, \code{outputs/ablation.csv}), the
-out-of-fold and test probabilities (\code{outputs/oof\_proba.npy}, \code{outputs/test\_proba.npy}) and the
-final \code{submission.csv}.
+out-of-fold and test probabilities (\code{outputs/oof\_proba.npy}, \code{outputs/test\_proba.npy}), the
+final \code{submission.csv}, a \code{README.md} with setup and running instructions, and
+\code{AI\_USAGE.md}, the declaration of AI assistance (Section~\ref{sec:ai}).
 
 \paragraph{Implementation choices.}
 \begin{itemize}
@@ -917,17 +924,21 @@ All random seeds (Python, NumPy, PyTorch CPU and GPU) are fixed, cuDNN is forced
 algorithms, and \code{CUBLAS\_WORKSPACE\_CONFIG} is set before CUDA is initialised. Two complete,
 independent runs of the notebook gave identical losses and accuracies at every epoch. The exact package
 versions are pinned in \code{requirements.txt} (Python 3.12, PyTorch 2.11 with CUDA 12.8, \code{timm}
-1.0.30, scikit-learn 1.9.1). On an RTX 4070 Laptop GPU the full run takes about 2 minutes of image
+1.0.30, scikit-learn 1.9.1), and the pretrained weights are downloaded from a fixed Hugging Face Hub
+commit, so the starting point of the fine-tuning cannot change. On an RTX 4070 Laptop GPU the full run takes about 2 minutes of image
 loading, 18 minutes of 5-fold training and 11 minutes of ablation.
 
 \subsection{Use of AI tools}
+\label{sec:ai}
 
-We used an AI coding assistant, \textbf{Claude} (Anthropic) through \textbf{Claude Code}, during the
-project. The repository history records it transparently: the commit that adds the notebook, the
-submission and the outputs lists Claude as a co-author. The assistant helped us write and document the
-code and analyse the results of the experiments.
+We used an AI coding assistant, \textbf{Claude Code} (Anthropic) with the \textbf{Claude Opus 5.5}
+model. Starting from the competition rules, it designed, wrote and ran the notebook on our GPU,
+including the exploratory hyperparameter sweep and the ablation study, and it drafted this report from
+the notebook's outputs. The repository records this: the commits that add the notebook and the report
+list Claude as a co-author, and \code{AI\_USAGE.md} declares the tools used, the AI-assisted files and
+notebook cells, how each of them was checked, and every prompt sent to the assistant.
 
-We kept the following rules so that the results remain ours and can be trusted:
+We kept the following rules so that the results can be trusted:
 \begin{itemize}
   \item \textbf{Every claim is backed by an executed cell.} All the numbers in this report come from the
   outputs stored in the notebook and in \code{outputs/}, not from the assistant's expectations.
@@ -947,7 +958,8 @@ We kept the following rules so that the results remain ours and can be trusted:
 
 We built a vendor classifier for emojis that reaches \textbf{97.56\,\%} out-of-fold accuracy and a
 macro-F1 of \textbf{0.976}, with a ConvNeXt-Tiny CNN fine-tuned from ImageNet-22k weights and averaged
-over 5 folds. Four lessons stand out:
+over 5 folds; its submission scores \textbf{\kagglepublic} on the Kaggle public leaderboard. Four
+lessons stand out:
 \begin{enumerate}
   \item \textbf{Careful decoding matters more than model size.} Converting every PNG mode to premultiplied
   RGBA, padding, resizing and compositing on white gives clean and comparable inputs, and removes the
@@ -962,8 +974,11 @@ over 5 folds. Four lessons stand out:
 \end{enumerate}
 
 \paragraph{Limitations and next steps.} The main limitation is the low resolution of the ``off-size''
-images. Promising directions are to give the network the native resolution as an extra input (or a
-dedicated branch for small images), to over-sample the off-size images during training, to ensemble
+images. Section~8 of the notebook, added after the results of this report, tests two remedies:
+over-sampling the off-size images during training and upscaling small images with nearest-neighbour
+interpolation instead of bicubic. It also tests a shorter 8-epoch schedule and retrains the best setup
+on 100\,\% of the training data with 3 seeds; it has not been run yet. Other directions are to give the
+network the native resolution as an extra input (or a dedicated branch for small images), to ensemble
 different backbones (e.g.\ a ConvNeXt with an EfficientNet), and to pseudo-label the most confident test
 predictions.
 
