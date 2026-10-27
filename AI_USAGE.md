@@ -20,7 +20,7 @@ All four members—Augustin, Gabriel, Nicolas, and Raphaël—contributed equall
 | tool | version / model | used for | used by |
 |---|---|---|---|
 | Claude Code (Anthropic), IDE extension | Claude Opus 5.5 (`claude-opus-5-5`) | 30 Sep – 1 Oct 2026: scaffolding PyTorch/timm training boilerplate, vectorizing the RGBA premultiplied-alpha compositing function, and formatting matplotlib subplots in `emoji_classifier.ipynb` | Nicolas, Augustin |
-| ChatGPT / Claude Web | GPT-5.4 / Claude Sonnet 4.6 | 10 – 19 Oct 2026: reviewing `imagehash` documentation for near-duplicate pHash thresholds, debugging `StratifiedGroupKFold` index alignment, and checking scikit-learn pipeline syntax | Gabriel, Raphaël |
+| ChatGPT / Claude Web | GPT-6 Astra | 10 – 19 Oct 2026: reviewing `imagehash` documentation for near-duplicate pHash thresholds, debugging `StratifiedGroupKFold` index alignment, and checking scikit-learn pipeline syntax | Gabriel, Raphaël |
 | Claude Code (Anthropic), desktop app | Claude Opus 5.5 (`claude-opus-5-5`) | 26 Oct 2026: converting drafted report sections into clean LaTeX (`report/main.tex`), formatting `booktabs` tables from exported CSV metrics, and resolving git rebase conflicts | Raphaël, Nicolas |
 
 ## AI-assisted files and cells
