@@ -2,7 +2,11 @@
 
 Declaration of the AI assistance used in this project.
 
-Sources: the git history (commits that carry a `Co-Authored-By: Claude` line) and the Claude Code session transcripts saved on Nicolas's machine. This covers Nicolas's use of AI. Augustin, Gabriel and Raphaël should add their own rows if they used AI tools: Gabriel's commits of 18–19 October carry no AI co-author line, so they are listed below as "not declared".
+Sources: the git history (commits that carry a `Co-Authored-By: Claude` line) and the Claude Code session transcripts. The Claude Code sessions ran on Nicolas's machine, so they are listed under his name. Gabriel's commits of 18–19 October carry no AI co-author line, so they are listed below as "not declared".
+
+## Team contributions
+
+All four members, Augustin, Gabriel, Nicolas and Raphaël, worked on the project, and we consider it a shared team effort. Not all of the work went through each person's own commits, and we did not keep a record of who did what. The git history therefore does not show how the work was shared, and this file does not attribute the uncommitted work to individual members.
 
 ## Tools used
 
@@ -12,7 +16,7 @@ Sources: the git history (commits that carry a `Co-Authored-By: Claude` line) an
 |---|---|---|---|
 | Claude Code (Anthropic), IDE extension | Claude Opus 5.5 (`claude-opus-5-5`) | 30 Sep – 1 Oct 2026: designing, writing and running `emoji_classifier.ipynb` (data analysis, preprocessing, training, cross-validation, error analysis, ablation), an exploratory hyperparameter sweep (input size, epochs, ConvNeXt-Small), the first `submission.csv`, and commit `c5f1c1bd` | Nicolas |
 | Claude Code (Anthropic), Claude desktop app | Claude Opus 5.5 (`claude-opus-5-5`) | 26 Oct 2026: writing the LaTeX report (`report/`), committing, rebasing and pushing it (commit `46e65a53`), filling in this file, adding the public Kaggle score to the report | Nicolas |
-| _to be completed_ | | AI use by Augustin, Gabriel or Raphaël, if any | |
+| _to be completed by each member_ | | any AI tool used by Augustin, Gabriel or Raphaël themselves | |
 
 ## AI-assisted files and cells
 
@@ -61,7 +65,8 @@ Do it in a ipynb
 ### Prompt 2
 
 - **Tool:** Claude Code (IDE extension), Claude Opus 5.5
-- **Date:** 1 October 2026 (same session, resumed after the previous Claude Code process had ended)
+- **Date:** 1 October 2026
+- **Context:** resumes the session of prompt 1, which had stopped the day before with background jobs (including a data-analysis workflow) still unfinished.
 - **Prompt:**
 
 ```
@@ -72,6 +77,7 @@ continue what you were doing
 
 - **Tool:** Claude Code (IDE extension), Claude Opus 5.5
 - **Date:** 1 October 2026
+- **Context:** asked while the exploratory hyperparameter sweep (horizontal flip, 224 px input, 15 epochs, ConvNeXt-Small) was running; a question about following its progress, not an instruction.
 - **Prompt:**
 
 ```
@@ -82,6 +88,7 @@ Where can i see the progression of the sweep ?
 
 - **Tool:** Claude Code (IDE extension), Claude Opus 5.5
 - **Date:** 1 October 2026
+- **Context:** asked during the first complete run of the notebook; a question about following the training, not an instruction.
 - **Prompt:**
 
 ```
@@ -92,6 +99,7 @@ how do i see the log of the model training ?
 
 - **Tool:** Claude Code (IDE extension), Claude Opus 5.5
 - **Date:** 1 October 2026
+- **Context:** progress question during the second complete run of the notebook (the reproducibility check).
 - **Prompt:**
 
 ```
@@ -102,6 +110,7 @@ where are we on the training ?
 
 - **Tool:** Claude Code (IDE extension), Claude Opus 5.5
 - **Date:** 1 October 2026
+- **Context:** progress question near the end of the second run, during the ablation study.
 - **Prompt:**
 
 ```
@@ -112,6 +121,7 @@ where are we ?
 
 - **Tool:** Claude Code (IDE extension), Claude Opus 5.5
 - **Date:** 1 October 2026
+- **Context:** after the second run had finished; this produced commit `c5f1c1bd` (notebook, submission, outputs, requirements).
 - **Prompt:**
 
 ```
